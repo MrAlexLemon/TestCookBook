@@ -5,6 +5,12 @@ VisualStudioVersion = 16.0.30717.126
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CookBook", "CookBook\CookBook.csproj", "{4E53CD8F-0EDD-46F9-88C1-B7D0B2426CFE}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CookBook.Infrastructure", "CookBook.Infrastructure\CookBook.Infrastructure.csproj", "{A887D673-50D7-47B5-8A94-8DF008E1C244}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CookBook.Application", "CookBook.Application\CookBook.Application.csproj", "{47B03E84-BC5F-4B12-B370-F4F68335726A}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CookBook.Domain", "CookBook.Core\CookBook.Domain.csproj", "{99D698BE-1B5E-4D5E-8355-433CFDA6B66B}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +21,18 @@ Global
 		{4E53CD8F-0EDD-46F9-88C1-B7D0B2426CFE}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4E53CD8F-0EDD-46F9-88C1-B7D0B2426CFE}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4E53CD8F-0EDD-46F9-88C1-B7D0B2426CFE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A887D673-50D7-47B5-8A94-8DF008E1C244}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A887D673-50D7-47B5-8A94-8DF008E1C244}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A887D673-50D7-47B5-8A94-8DF008E1C244}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A887D673-50D7-47B5-8A94-8DF008E1C244}.Release|Any CPU.Build.0 = Release|Any CPU
+		{47B03E84-BC5F-4B12-B370-F4F68335726A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{47B03E84-BC5F-4B12-B370-F4F68335726A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{47B03E84-BC5F-4B12-B370-F4F68335726A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{47B03E84-BC5F-4B12-B370-F4F68335726A}.Release|Any CPU.Build.0 = Release|Any CPU
+		{99D698BE-1B5E-4D5E-8355-433CFDA6B66B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{99D698BE-1B5E-4D5E-8355-433CFDA6B66B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{99D698BE-1B5E-4D5E-8355-433CFDA6B66B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{99D698BE-1B5E-4D5E-8355-433CFDA6B66B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
