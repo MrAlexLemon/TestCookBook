@@ -6,7 +6,7 @@ using System.Text;
 
 namespace CookBook.Domain.Entities.Tree
 {
-    public class Tree<T> : IEnumerable<T> where T : IComparable
+    public class Tree<T> : IEnumerable<T>, IComparable where T : IComparable
     {
         private TreeNode<T> root { get; set; }
 
@@ -17,12 +17,12 @@ namespace CookBook.Domain.Entities.Tree
                 return false;
             }
 
-            return find(root, value) != null;
+            return Find(root, value) != null;
         }
 
         public int GetHeight()
         {
-            return getHeight(root);
+            return GetHeight(root);
         }
 
         public void Insert(T parent, T child)
@@ -33,14 +33,14 @@ namespace CookBook.Domain.Entities.Tree
                 return;
             }
 
-            var parentNode = find(parent);
+            var parentNode = Find(parent);
 
             if (parentNode == null)
             {
                 throw new ArgumentNullException();
             }
 
-            var exists = find(root, child) != null;
+            var exists = Find(root, child) != null;
 
             if (exists)
             {
@@ -57,7 +57,7 @@ namespace CookBook.Domain.Entities.Tree
                 throw new Exception("Tree doesn't exist.");
             }
 
-            var currentNode = find(node);
+            var currentNode = Find(node);
 
             if (currentNode == null)
             {
@@ -71,7 +71,7 @@ namespace CookBook.Domain.Entities.Tree
                 previousRecipesList.Add(currentNode.Value);
                 if (currentNode.Parent is null)
                     break;
-                currentNode = find(currentNode.Parent.Value);
+                currentNode = Find(currentNode.Parent.Value);
             }
 
             return previousRecipesList;
@@ -84,7 +84,7 @@ namespace CookBook.Domain.Entities.Tree
                 throw new Exception("Tree doesn't exist.");
             }
 
-            var parentNode = find(node);
+            var parentNode = Find(node);
 
             if (parentNode == null)
             {
@@ -104,7 +104,7 @@ namespace CookBook.Domain.Entities.Tree
 
             parentNode.Parent.Children.SortedInsert(new TreeNode<T>(parentNode.Parent, data));
             var childrenNodes = parentNode.Children.ToList();
-            var currentNode = find(data);
+            var currentNode = Find(data);
 
             foreach (var item in childrenNodes)
             {
@@ -118,25 +118,25 @@ namespace CookBook.Domain.Entities.Tree
 
         public void Delete(T value)
         {
-            delete(root.Value, value);
+            Delete(root.Value, value);
         }
 
         public IEnumerable<T> Children(T value)
         {
-            return find(value)?.Children.Select(x => x.Value);
+            return Find(value)?.Children.Select(x => x.Value);
         }
 
-        private TreeNode<T> find(T value)
+        private TreeNode<T> Find(T value)
         {
             if (root == null)
             {
                 return null;
             }
 
-            return find(root, value);
+            return Find(root, value);
         }
 
-        private int getHeight(TreeNode<T> node)
+        private int GetHeight(TreeNode<T> node)
         {
             if (node == null)
             {
@@ -147,7 +147,7 @@ namespace CookBook.Domain.Entities.Tree
 
             foreach (var child in node.Children)
             {
-                var childHeight = getHeight(child);
+                var childHeight = GetHeight(child);
 
                 if (currentHeight < childHeight)
                 {
@@ -160,16 +160,16 @@ namespace CookBook.Domain.Entities.Tree
             return currentHeight;
         }
 
-        private void delete(T parentValue, T value)
+        private void Delete(T parentValue, T value)
         {
-            var parent = find(parentValue);
+            var parent = Find(parentValue);
 
             if (parent == null)
             {
                 throw new Exception("Cannot find parent");
             }
 
-            var itemToRemove = find(parent, value);
+            var itemToRemove = Find(parent, value);
 
             if (itemToRemove == null)
             {
@@ -221,7 +221,7 @@ namespace CookBook.Domain.Entities.Tree
             }
         }
 
-        private TreeNode<T> find(TreeNode<T> parent, T value)
+        private TreeNode<T> Find(TreeNode<T> parent, T value)
         {
             if (parent.Value.CompareTo(value) == 0)
             {
@@ -230,7 +230,7 @@ namespace CookBook.Domain.Entities.Tree
 
             foreach (var child in parent.Children)
             {
-                var result = find(child, value);
+                var result = Find(child, value);
 
                 if (result != null)
                 {
@@ -252,5 +252,51 @@ namespace CookBook.Domain.Entities.Tree
 
         }
 
+        public int CompareTo(object obj)
+        {
+            var temp = obj as Tree<T>;
+            return BfsCompare(root.Value, temp);
+        }
+
+
+        private int BfsCompare(T data1, Tree<T> data2)
+        {
+            var node1 = Find(data1);
+
+            var theQueue1 = new Queue<TreeNode<T>>();
+            theQueue1.Enqueue(node1);
+
+            var node2 = data2.root;
+
+            var theQueue2 = new Queue<TreeNode<T>>();
+            theQueue2.Enqueue(node2);
+
+            while (theQueue1.Count > 0 && theQueue2.Count > 0)
+            {
+                var n1 = theQueue1.Dequeue();
+                var n2 = theQueue2.Dequeue();
+
+                if (n1.Value.CompareTo(n2.Value) < 0)
+                {
+                    return -1;
+                }
+                else if (n1.Value.CompareTo(n2.Value) > 0)
+                {
+                    return 1;
+                }
+
+                foreach (var child in n1.Children)
+                {
+                    theQueue1.Enqueue(child);
+                }
+
+                foreach (var child in n2.Children)
+                {
+                    theQueue2.Enqueue(child);
+                }
+            }
+
+            return 0;
+        }
     }
 }

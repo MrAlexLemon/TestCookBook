@@ -6,7 +6,7 @@ using System.Text;
 
 namespace CookBook.Domain.Entities.Tree
 {
-    internal class TreeNode<T> : IComparable, ICloneable where T : IComparable
+    internal class TreeNode<T> : IComparable where T : IComparable
     {
         internal T Value { get; set; }
 
@@ -25,14 +25,8 @@ namespace CookBook.Domain.Entities.Tree
 
         public int CompareTo(object obj)
         {
-            var qq = obj as TreeNode<T>;
-            return Value.CompareTo(qq.Value);
-            //return Value.CompareTo(obj as TreeNode<T>);
-        }
-
-        public object Clone()
-        {
-            return this.MemberwiseClone();
+            var temp = obj as TreeNode<T>;
+            return Value.CompareTo(temp.Value);
         }
     }
 }

@@ -19,7 +19,7 @@ namespace CookBook.Controllers
             var root = new TestClass(1, 1, 1);
             obj.Insert(root, root);
             var node1 = new TestClass(3, 3, 3);
-            var node2 = new TestClass(12, 12, 12);
+            var node2 = new TestClass(-12, -12, -12);
             var node3 = new TestClass(5, 5, 5);
             var node4 = new TestClass(2, 2, 2);
             var node5 = new TestClass(0, 0, 0);
@@ -57,13 +57,42 @@ namespace CookBook.Controllers
 
 
             //obj.UpdateNode(root, new TestClass(222, 222, 222));
-            //obj.UpdateNode(node1, new TestClass(222,222,222));
+            obj.UpdateNode(node1, new TestClass(222,222,222));
 
             //obj.GetAllPreviousRecipes(node9);
             //obj.GetAllPreviousRecipes(root);
             //var z = obj.Count();
 
-            return Ok(obj);
+            //obj.Bfs(root);
+
+            CookBook<TestClass> cookBook1 = new CookBook<TestClass>();
+            //cookBook1.Recipes.Add(obj);
+            cookBook1.AddRecipe(obj);
+
+            Tree<TestClass> obj2 = new Tree<TestClass>();
+            //var root2 = new TestClass(-1, -1, -1);
+            obj2.Insert(root, root);
+            //obj2.Insert(root, node1);
+            obj2.Insert(root, node2);
+            obj2.Insert(node2, node3);
+            obj2.Insert(node2, node4);
+            //obj2.Insert(node1, node5);
+
+
+            /*obj2.Insert(root, node6);
+            obj2.Insert(root, node7);
+            obj2.Insert(node7, node8);
+            obj2.Insert(node7, node9);
+            obj2.Insert(node7, node10);
+            obj2.Insert(root, testNode);*/
+
+            //obj.BfsCompare(root, obj2);
+
+            //cookBook1.Recipes.Add(obj2);
+            cookBook1.AddRecipe(obj2);
+
+            return Ok(cookBook1.GetRecipes());
+            //return Ok(obj);
             //return Ok("Test.");
         }
     }
