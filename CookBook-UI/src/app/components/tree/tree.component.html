@@ -1,0 +1,43 @@
+<ul class="treenodes">
+    <li *ngFor="let node of Nodes" class="treenode">
+        <i *ngIf="!node.isLeaf" class="nodebutton fa fa-{{node.isExpanded ? 'minus' : 'plus'}}-square-o"
+           (click)="onExpand(node)">
+        </i>
+        <div class="nodeinfo">
+            <i *ngIf="node.isLeaf" class="nodeicon fa fa-file-o"></i>
+            <i *ngIf="!node.isLeaf" class="nodeicon fa fa-tags"></i>            
+
+            <span class="nodetext {{node == SelectedNode ? 'bg-info' : ''}} {{node.parent ? '' : 'text-root'}}"
+                  (click)="onSelectNode(node)">
+                {{node.badge}}
+            </span>
+            <span *ngIf="node.badge > 0" class="nodebage badge">{{node.badge}}</span>
+
+            <app-tree [Nodes]="node.children"
+                       [SelectedNode]="SelectedNode"
+                       (onSelectedChanged)="onSelectNode($event)"
+                       (onRequestNodes)="onRequestLocal($event)"
+                       *ngIf="node.isExpanded">
+            </app-tree>
+        </div>
+    </li>
+</ul>
+
+<!-- <head>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" integrity="sha384-WskhaSGFgHYWDcbwN70/dfYBj47jz9qbsMId/iRN3ewGhXQFZCSftd1LZCfmhktB" crossorigin="anonymous">
+</head> -->
+
+<!-- <ul class="treecomponents">
+  <li *ngFor="let node of Nodes" class="treecomponent">
+    <i class="btn btn-light glyphicon glyphicon-{{node.isExpanded ? 'minus' : 'plus'}}" (click)="onExpand(node)"></i>
+    <div class="nodeinfo">
+
+      <span (click)="onSelectNode(node)">
+            {{node.name}}
+            </span>
+
+      <app-tree [Nodes]="node.children" [SelectedNode]="SelectedNode" (onSelectedChanged)="onSelectNode($event)" (onRequestNodes)="onRequestLocal($event)" *ngIf="node.isExpanded">
+      </app-tree>
+    </div>
+  </li>
+</ul> -->

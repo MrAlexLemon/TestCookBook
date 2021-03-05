@@ -12,88 +12,48 @@ namespace CookBook.Controllers
     [Route("api/[controller]")]
     public class TestController : ControllerBase
     {
-        [HttpGet]
-        public async Task<IActionResult> Get()
+        private readonly Tree<TestClass> _testClasses;
+        public TestController(Tree<TestClass> testClasses)
         {
-            Tree<TestClass> obj = new Tree<TestClass>();
-            var root = new TestClass(1, 1, 1);
-            obj.Insert(root, root);
-            var node1 = new TestClass(3, 3, 3);
-            var node2 = new TestClass(-12, -12, -12);
-            var node3 = new TestClass(5, 5, 5);
-            var node4 = new TestClass(2, 2, 2);
-            var node5 = new TestClass(0, 0, 0);
-
-
-            var node6 = new TestClass(10, 10, 10);
-            var node7 = new TestClass(20, 20, 20);
-            var node8 = new TestClass(21, 21, 21);
-            var node9 = new TestClass(22, 22, 22);
-            var node10 = new TestClass(30, 30, 30);
-
-            obj.Insert(root, node1);
-            obj.Insert(root, node2);
-            obj.Insert(node2, node3);
-            obj.Insert(node2, node4);
-            obj.Insert(node1, node5);
-
-
-            obj.Insert(root, node6);
-            obj.Insert(root, node7);
-            obj.Insert(node7, node8);
-            obj.Insert(node7, node9);
-            obj.Insert(node7, node10);
-
-            obj.Delete(node4);
-            obj.Delete(node3);
-            obj.Delete(node2);
-
-            obj.Delete(node6);
-            obj.Delete(node8);
-            obj.Delete(node10);
-
-            var testNode = new TestClass(4, 4, 4);
-            obj.Insert(root, testNode);
-
-
-            //obj.UpdateNode(root, new TestClass(222, 222, 222));
-            obj.UpdateNode(node1, new TestClass(222,222,222));
-
-            //obj.GetAllPreviousRecipes(node9);
-            //obj.GetAllPreviousRecipes(root);
-            //var z = obj.Count();
-
-            //obj.Bfs(root);
-
-            CookBook<TestClass> cookBook1 = new CookBook<TestClass>();
-            //cookBook1.Recipes.Add(obj);
-            cookBook1.AddRecipe(obj);
-
-            Tree<TestClass> obj2 = new Tree<TestClass>();
-            //var root2 = new TestClass(-1, -1, -1);
-            obj2.Insert(root, root);
-            //obj2.Insert(root, node1);
-            obj2.Insert(root, node2);
-            obj2.Insert(node2, node3);
-            obj2.Insert(node2, node4);
-            //obj2.Insert(node1, node5);
-
-
-            /*obj2.Insert(root, node6);
-            obj2.Insert(root, node7);
-            obj2.Insert(node7, node8);
-            obj2.Insert(node7, node9);
-            obj2.Insert(node7, node10);
-            obj2.Insert(root, testNode);*/
-
-            //obj.BfsCompare(root, obj2);
-
-            //cookBook1.Recipes.Add(obj2);
-            cookBook1.AddRecipe(obj2);
-
-            return Ok(cookBook1.GetRecipes());
-            //return Ok(obj);
-            //return Ok("Test.");
+            _testClasses = testClasses;
         }
+
+        [HttpGet("root")]
+        public async Task<IActionResult> GetRootInfo()
+        {
+            var res = _testClasses.GetRootInfo();
+            return Ok(res);
+        }
+
+        [HttpPost("post")]
+        public async Task<IActionResult> GetNodeInfo([FromBody] TestClass body)
+        {
+            var res = _testClasses.GetChildrenNodeDto(body);
+            return Ok(res);
+        }
+
+        [HttpGet]
+        public async Task<IActionResult> GetAllRecipes()
+        {
+            return Ok(_testClasses);
+        }
+
+        /*[HttpPut("node")]
+        public async Task<IActionResult> UpdateRecipe([FromBody] TestClass body)
+        {
+            return Ok(_testClasses.UpdateNode());
+        }
+
+        [HttpPost("newnode")]
+        public async Task<IActionResult> CreateNewRecipe([FromBody] TestClass body)
+        {
+            return Ok(_testClasses);
+        }
+
+        [HttpDelete("node")]
+        public async Task<IActionResult> DeleteRecipes([FromBody] TestClass body)
+        {
+            return Ok(_testClasses);
+        }*/
     }
 }

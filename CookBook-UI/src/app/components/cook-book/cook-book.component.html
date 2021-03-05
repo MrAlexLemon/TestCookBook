@@ -1,0 +1,11 @@
+<div class="col-lg-3">
+	<div class="panel panel-info">
+		<div class="panel-body">
+			<app-tree [Nodes]="Nodes"
+					   [SelectedNode]="selectedNode"
+					   (onSelectedChanged)="onSelectNode($event)"
+					   (onRequestNodes)="onRequest($event)">
+					</app-tree>
+		</div>
+	</div>
+</div>

@@ -5,6 +5,10 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="3.1.10" />
+  </ItemGroup>
+
+  <ItemGroup>
     <ProjectReference Include="..\CookBook.Application\CookBook.Application.csproj" />
     <ProjectReference Include="..\CookBook.Infrastructure\CookBook.Infrastructure.csproj" />
   </ItemGroup>

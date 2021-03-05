@@ -1,4 +1,5 @@
-﻿using System;
+﻿using CookBook.Domain.Dto;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
@@ -48,6 +49,17 @@ namespace CookBook.Domain.Entities.Tree
             }
 
             parentNode.Children.SortedInsert(new TreeNode<T>(parentNode, child));
+        }
+
+
+        public IEnumerable<TreeNodeDto<T>> GetRootInfo()
+        {
+            if (root == null)
+            {
+                throw new Exception("Tree doesn't exist.");
+            }
+
+            return new TreeNodeDto<T>[] { new TreeNodeDto<T>{ Id = root.Id, Value = root.Value, IsLeaf = root.IsLeaf, Children = root.Children?.Select(y => new TreeNodeDto<T> { Id = y.Id, Value = y.Value }) } };
         }
 
         public List<T> GetAllPreviousRecipes(T node)
@@ -124,6 +136,11 @@ namespace CookBook.Domain.Entities.Tree
         public IEnumerable<T> Children(T value)
         {
             return Find(value)?.Children.Select(x => x.Value);
+        }
+
+        public IEnumerable<TreeNodeDto<T>> GetChildrenNodeDto(T value)
+        {
+            return Find(value)?.Children.Select(x => new TreeNodeDto<T>{ Id = x.Id, Value = x.Value, Parent = new TreeNodeDto<T>{ Id = x.Parent.Id, Value = x.Parent.Value }, IsLeaf = x.IsLeaf, Children = x.Children?.Select(y => new TreeNodeDto<T> { Id = y.Id, Value = y.Value }) });
         }
 
         private TreeNode<T> Find(T value)

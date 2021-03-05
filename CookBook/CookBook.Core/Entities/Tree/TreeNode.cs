@@ -8,6 +8,7 @@ namespace CookBook.Domain.Entities.Tree
 {
     internal class TreeNode<T> : IComparable where T : IComparable
     {
+        internal Guid Id { get; set; }
         internal T Value { get; set; }
 
         internal TreeNode<T> Parent { get; set; }
@@ -17,6 +18,7 @@ namespace CookBook.Domain.Entities.Tree
 
         internal TreeNode(TreeNode<T> parent, T value)
         {
+            Id = Guid.NewGuid();
             Parent = parent;
             Value = value;
 
