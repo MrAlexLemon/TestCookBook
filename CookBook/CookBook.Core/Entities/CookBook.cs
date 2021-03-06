@@ -25,9 +25,9 @@ namespace CookBook.Domain.Entities
             recipes.Add(recipe);
         }
 
-        public void Update(Guid treeId)
+        /*public void Update(Guid treeId)
         {
             return recipes.AsQueryable().Where(x => x.GetRootInfo().FirstOrDefault().Id == treeId).FirstOrDefault();
-        }
+        }*/
     }
 }
