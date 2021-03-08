@@ -7,6 +7,7 @@ namespace CookBookApp.Repositories
 {
     public interface IRecipeRepository
     {
+        public IList<Recipe> Recipes { get; set; }
         // Get all recipe roots from cookboo==List<Recipe>(); List == trees
         IList<Recipe> GetRoots();
 

@@ -20,27 +20,6 @@ namespace CookBookApp.Controllers
             _recipeRepository = recipeRepository;
         }
 
-        [HttpGet("test")]
-        public async Task<IActionResult> Test()
-        {
-            var recipe1 = new Recipe("Recipe1", "Description1", null);
-            var recipe2 = new Recipe("Recipe2", "Description2", recipe1.Id);
-            var recipe3 = new Recipe("Recipe3", "Description3", recipe1.Id);
-            var recipe4 = new Recipe("Recipe4", "Description4", recipe2.Id);
-            var recipe5 = new Recipe("Recipe5", "Description5", recipe2.Id);
-            var recipe6 = new Recipe("Recipe6", "Description6", recipe4.Id);
-            var recipe7 = new Recipe("Recipe7", "Description7", recipe6.Id);
-
-            recipe1.AddChildren(new List<Recipe> { recipe2, recipe3 });
-            recipe2.AddChildren(new List<Recipe> { recipe4, recipe5 });
-            recipe4.AddChildren(new List<Recipe> { recipe6 });
-            recipe6.AddChildren(new List<Recipe> { recipe7 });
-
-            var listToSortHierarchically = new List<Recipe> { recipe1, recipe2, recipe3, recipe4, recipe5, recipe6, recipe7 };
-
-            return Ok(listToSortHierarchically);
-        }
-
         [HttpGet("all")]
         public async Task<IActionResult> GetAllRecipes()
         {

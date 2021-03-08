@@ -10,7 +10,7 @@ namespace CookBookApp.Repositories
 {
     public class RecipeRepository : IRecipeRepository
     {
-        private IList<Recipe> recipes;
+        public IList<Recipe> Recipes { get; set; }
         public RecipeRepository()
         {
             var recipe1 = new Recipe("Recipe1", "Description1", null);
@@ -26,23 +26,23 @@ namespace CookBookApp.Repositories
             recipe4.AddChildren(new List<Recipe> { recipe6 });
             recipe6.AddChildren(new List<Recipe> { recipe7 });
 
-            recipes = new List<Recipe> { recipe1, recipe2, recipe3, recipe4, recipe5, recipe6, recipe7 };
+            Recipes = new List<Recipe> { recipe1, recipe2, recipe3, recipe4, recipe5, recipe6, recipe7 };
         }
 
 
         public IList<Recipe> GetRoots()
         {
-            return recipes.Where(x => x.ParentId is null).ToList();
+            return Recipes.Where(x => x.ParentId is null).OrderBy(x=>x.Name).ToList();
         }
 
         public Recipe GetRoot(Func<Recipe, bool> predicate)
         {
-            return recipes.Where(x => x.ParentId is null).Where(predicate).FirstOrDefault();
+            return Recipes.Where(x => x.ParentId is null).Where(predicate).FirstOrDefault();
         }
 
         public IList<Recipe> GetAllRecipes()
         {
-            return recipes.Ordered().ToList();
+            return Recipes.Ordered().ToList();
         }
 
         public IList<Recipe> GetChildRecipes(Guid parentId)
@@ -65,7 +65,8 @@ namespace CookBookApp.Repositories
         public void ForkRecipe(Guid rootId, CreateRecipeDto recipe)
         {
             var currentRecipe = GetNodeById(rootId);
-            if(currentRecipe.Children.Any(x => (x.Name == recipe.Name)))
+            //if(currentRecipe.Children.Any(x => (x.Name == recipe.Name)))
+            if (!(FindRecipeInTree(currentRecipe, x=>(x.Name == recipe.Name)) is null))
                 throw new Exception($"Recipe already exsts. Name: {recipe.Name}");
 
             currentRecipe.Children.Add(new Recipe(recipe.Name, recipe.Description, rootId));
@@ -84,7 +85,7 @@ namespace CookBookApp.Repositories
             else
                 root = GetNodeById(currentRecipe.ParentId.Value);
 
-            recipes.Remove(currentRecipe);
+            Recipes.Remove(currentRecipe);
         }
 
         public void UpdateRecipe(UpdateRecipeDto updatedRecipe)
